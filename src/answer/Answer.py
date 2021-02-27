@@ -25,16 +25,17 @@ class Answer:
 
     @staticmethod
     def negative():
-        """ Always returns a negative sentiment answer."""
+        """ Always returns an answer with a negative sentiment. """
         return choice(Answer.NEGATIVE)
 
     @staticmethod
     def positive():
-        """ Always returns a positive sentiment answer."""
+        """ Always returns an answer with a positive  sentiment. """
         return choice(Answer.POSITIVE)
 
     # TODO: Change this to take weights for positive and negative sentiments when the will-they-win endpoint is changed.
     @staticmethod
     def any():
+        """ Returns a random answer with any sentiment. """
         all_answers = Answer.POSITIVE + Answer.NEGATIVE
         return choices(all_answers)[0]
