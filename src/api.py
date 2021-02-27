@@ -1,5 +1,7 @@
 from flask import Flask, redirect, url_for
 
+from .answer.Answer import Answer
+
 app = Flask(__name__)
 
 
@@ -10,4 +12,4 @@ def root():
 
 @app.route('/will-they-win/', methods=['GET'])
 def will_they_win():
-    return {'answer': 'Not likely...'}
+    return {'answer': Answer.negative()}
