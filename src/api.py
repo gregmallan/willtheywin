@@ -1,6 +1,6 @@
 from flask import Flask, redirect, url_for
 
-from .answer.Answer import Answer
+from .answer import Answer
 
 app = Flask(__name__)
 
