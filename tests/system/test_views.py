@@ -11,8 +11,8 @@ class TestRootMethodNotAllowed():
 
     @pytest.mark.parametrize('method_name', ['post', 'put', 'delete', 'patch'])
     def test_status_405(self, method_name):
-        client_callable_method = getattr(self.client, method_name)
-        assert client_callable_method(url_for(self.VIEW_NAME)).status_code == 405
+        client_callable_request_method = getattr(self.client, method_name)
+        assert client_callable_request_method(url_for(self.VIEW_NAME)).status_code == 405
 
 
 @pytest.mark.usefixtures('client_class')
@@ -40,8 +40,8 @@ class TestWillTheyWinMethodNotAllowed():
 
     @pytest.mark.parametrize('method_name', ['post', 'put', 'delete', 'patch'])
     def test_status_405(self, method_name):
-        client_callable_method = getattr(self.client, method_name)
-        assert client_callable_method(url_for(self.VIEW_NAME)).status_code == 405
+        client_callable_request_method = getattr(self.client, method_name)
+        assert client_callable_request_method(url_for(self.VIEW_NAME)).status_code == 405
 
 
 @pytest.mark.usefixtures('client_class')
