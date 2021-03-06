@@ -31,3 +31,34 @@ class TestRoot():
     def test_follow_redirects_json(self):
         response = self.client.get(url_for(self.VIEW_NAME), follow_redirects=True)
         assert response.get_json()
+
+    @pytest.mark.parametrize('team_name_dict', [
+        {'': None},
+        {'': ''},
+        {'wrong_key': None},
+        {'wrong_key': ''},
+        {'TEAM': None},
+        {'TEAM': ''},
+        {'team': None},
+        {'team': ''},
+        {'tea': 'canucks'},
+        {'eam': 'canucks'},
+        {'TEAM': 'canucks'},
+        {'TEAM': 'vancouver'},
+    ])
+    def test_redirects_with_invalid_key_or_missing_team(self, team_name_dict):
+        response = self.client.get(url_for(self.VIEW_NAME, **team_name_dict), follow_redirects=True)
+        assert response.get_json()['status'] == 'error'
+        assert response.get_json()['error_message'] == 'missing team'
+
+    @pytest.mark.parametrize('team_name_dict', [
+        {'team': 'canucks'},
+        {'team': 'raptors'},
+        {'team': 'jets'},
+        {'team': 'winnipeg'},
+    ])
+    def test_redirects_with_team(self, team_name_dict):
+        response = self.client.get(url_for(self.VIEW_NAME, **team_name_dict), follow_redirects=True)
+        assert response.get_json()['status'] == 'ok'
+        assert response.get_json()['team'] == team_name_dict['team']
+        assert 'answer' in response.get_json()
