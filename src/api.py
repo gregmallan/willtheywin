@@ -1,4 +1,4 @@
-from flask import Flask, redirect, request, url_for
+from flask import Flask, make_response, redirect, request, url_for
 
 from src.answer import Answer
 
@@ -17,6 +17,11 @@ def root():
 def will_they_win():
     team = request.args.get(TEAM_QUERY_PARAM)
     if not team:
-        return {'status': 'error', 'error_message': 'missing team'}
-    return {'status': 'ok', TEAM_QUERY_PARAM: team, 'answer': Answer.negative()}
+        response_data = {'status': 'error', 'error_message': 'missing team'}
+    else:
+        response_data= {'status': 'ok', TEAM_QUERY_PARAM: team, 'answer': Answer.negative()}
 
+    response = make_response(response_data)
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers["Access-Control-Allow-Credentials"]= True
+    return response
